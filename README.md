@@ -7,60 +7,77 @@
 
 
 ```
-credit-scoring-pipeline/
+credit-scoring-model/
 │
 ├── data/
-│   ├── raw/                    # Исходные данные (управляются DVC)
-│   ├── processed/              # Обработанные данные
-│   └── great_expectations/     # Настройки и сьюты Great Expectations
+│   ├── raw/                    # Исходные данные (версионируются DVC)
+│   │   └── UCI_Credit_Card.csv
+│   ├── processed/              # Подготовленные данные
+│   │   ├── train.csv
+│   │   └── test.csv
+│   └── expectations/           # Наборы правил Great Expectations
+│       ├── great_expectations.yml
+│       └── credit_data_suite.json
 │
-├── models/                     # Сохраненные модели (управляются DVC)
+├── models/                     # Сохраненные модели (версионируются DVC)
+│   ├── best_model.pkl
+│   └── model_metadata.json
 │
-├── notebooks/                  # Jupyter notebooks для исследования
-│   └── 01_eda.ipynb
+├── notebooks/                  # EDA и эксперименты
+│   ├── 01_eda.ipynb
+│   ├── 02_feature_engineering.ipynb
+│   └── 03_model_experiments.ipynb
 │
 ├── src/
 │   ├── __init__.py
-│   ├── data/
+│   ├── data/                   # Скрипты для обработки данных
 │   │   ├── __init__.py
-│   │   ├── make_dataset.py    # Скрипт загрузки и очистки
-│   │   └── validation.py      # Great Expectations валидация
-│   ├── features/
+│   │   ├── make_dataset.py
+│   │   └── validation.py       # Валидация с GE
+│   ├── features/               # Feature Engineering
 │   │   ├── __init__.py
-│   │   └── build_features.py  # Feature Engineering
-│   ├── models/
+│   │   └── build_features.py
+│   ├── models/                 # Скрипты для обучения и предсказания
 │   │   ├── __init__.py
-│   │   ├── predict_model.py   # Функции для предсказания
-│   │   └── train_model.py     # Обучение и логирование в MLflow
-│   └── visualization/
+│   │   ├── train.py
+│   │   ├── predict.py
+│   │   └── pipeline.py         # Создание sklearn pipeline
+│   └── monitoring/
 │       ├── __init__.py
-│       └── visualize.py       # Построение графиков (ROC-кривая)
+│       └── drift_detection.py
 │
-├── api/
+├── api/                        # FastAPI приложение
 │   ├── __init__.py
-│   └── app.py                 # FastAPI приложение
+│   ├── app.py
+│   └── schemas.py              # Pydantic схемы
 │
-├── tests/                     # Unit-тесты
+├── tests/                      # Unit-тесты
 │   ├── __init__.py
 │   ├── test_data.py
 │   ├── test_features.py
-│   └── test_models.py
+│   ├── test_models.py
+│   └── test_api.py
 │
-├── .github/workflows/         # GitHub Actions CI
+├── .github/workflows/          # GitHub Actions
 │   └── ci-cd.yml
 │
-├── scripts/                   # Вспомогательные скрипты
-│   ├── train_pipeline.py      # Скрипт для запуска всего пайплайна
-│   ├── monitor_drift.py       # Скрипт для мониторинга дрифта (опционально)
+├── scripts/
+│   ├── train_pipeline.py
+│   ├── run_monitoring.py
 │   ├── build_docker.sh
 │   └── run_docker.sh
 │
+├── config/                     # Конфигурационные файлы
+│   ├── model_config.yaml
+│   └── api_config.yaml
+│
 ├── Dockerfile
 ├── requirements.txt
-├── dvc.yaml                   # DVC пайплайн
-├── params.yaml                # Параметры для обучения (гиперпараметры)
+├── dvc.yaml                    # DVC pipeline
+├── pyproject.toml              # Для конфигурации инструментов
+├── params.yaml                 # Параметры для DVC pipeline
+├── .env.example                # Пример переменных окружения
 └── README.md
-
 ```
 
 
