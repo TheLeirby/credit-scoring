@@ -1,0 +1,48 @@
+data:
+  raw_path: "data/raw/UCI_Credit_Card.csv"
+  processed_dir: "data/processed"
+  test_size: 0.2
+  random_state: 42
+
+features:
+  numeric_features:
+    - "LIMIT_BAL"
+    - "AGE"
+    - "BILL_AMT1"
+    - "BILL_AMT2"
+    - "BILL_AMT3"
+    - "BILL_AMT4"
+    - "BILL_AMT5"
+    - "BILL_AMT6"
+    - "PAY_AMT1"
+    - "PAY_AMT2"
+    - "PAY_AMT3"
+    - "PAY_AMT4"
+    - "PAY_AMT5"
+    - "PAY_AMT6"
+  
+  categorical_features:
+    - "SEX"
+    - "EDUCATION"
+    - "MARRIAGE"
+  
+  target: "default"
+
+model:
+  classifier: "logistic_regression"
+  hyperparameters:
+    logistic_regression:
+      C: [0.1, 1.0, 10.0]
+      penalty: ["l1", "l2"]
+      solver: ["liblinear"]
+      random_state: 42
+    
+    gradient_boosting:
+      n_estimators: [100, 200]
+      learning_rate: [0.01, 0.1]
+      max_depth: [3, 5]
+      random_state: 42
+
+mlflow:
+  tracking_uri: "mlruns"
+  experiment_name: "credit-scoring"

@@ -4,24 +4,33 @@ stages:
     deps:
       - src/data/make_dataset.py
       - data/raw/UCI_Credit_Card.csv
+      - config/model_config.yaml
     outs:
       - data/processed/train.csv
       - data/processed/test.csv
     params:
       - data.test_size
       - data.random_state
-  
-  train:
-    cmd: python src/models/train_model.py
+
+  validate:
+    cmd: python -c "from src.data.validation import validate_data; import pandas as pd; df = pd.read_csv('data/processed/train.csv'); validate_data(df, 'credit_data_suite')"
     deps:
-      - src/models/train_model.py
+      - src/data/validation.py
+      - data/processed/train.csv
+      - data/expectations/credit_data_suite.json
+
+  train:
+    cmd: python src/models/train.py
+    deps:
+      - src/models/train.py
+      - src/models/pipeline.py
       - src/features/build_features.py
-      - src/visualization/visualize.py
       - data/processed/train.csv
       - data/processed/test.csv
+      - config/model_config.yaml
     params:
       - model.classifier
-      - model.param_grid
+      - model.hyperparameters
     metrics:
       - metrics.json:
           cache: false
