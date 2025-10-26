@@ -1,0 +1,9 @@
+data:
+  test_size: 0.2
+  random_state: 42
+
+model:
+  classifier: "LogisticRegression"
+  param_grid:
+    classifier__C: [0.1, 1.0, 10.0]
+    classifier__penalty: ["l1", "l2"]

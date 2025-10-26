@@ -1,0 +1,29 @@
+stages:
+  prepare:
+    cmd: python src/data/make_dataset.py
+    deps:
+      - src/data/make_dataset.py
+      - data/raw/UCI_Credit_Card.csv
+    outs:
+      - data/processed/train.csv
+      - data/processed/test.csv
+    params:
+      - data.test_size
+      - data.random_state
+  
+  train:
+    cmd: python src/models/train_model.py
+    deps:
+      - src/models/train_model.py
+      - src/features/build_features.py
+      - src/visualization/visualize.py
+      - data/processed/train.csv
+      - data/processed/test.csv
+    params:
+      - model.classifier
+      - model.param_grid
+    metrics:
+      - metrics.json:
+          cache: false
+    outs:
+      - models/best_model.pkl
