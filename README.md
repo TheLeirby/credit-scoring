@@ -6,7 +6,7 @@
 ## Структура проекта
 
 
-
+```
 credit-scoring-pipeline/
 │
 ├── data/
@@ -61,7 +61,7 @@ credit-scoring-pipeline/
 ├── params.yaml                # Параметры для обучения (гиперпараметры)
 └── README.md
 
-
+```
 
 
 
@@ -71,26 +71,28 @@ credit-scoring-pipeline/
 1. Клонируйте репозиторий:
 
 
-
+```bash
 git clone https://github.com/leirby/credit-scoring-pipeline.git
 cd credit-scoring-pipeline
-
+```
 
 
 2. Установите зависимости:
 
-
+```bash
 pip install -r requirements.txt
-
+```
 3. Запустите пайплайн подготовки данных и обучения:
 
+```bash
 dvc repro
-
+```
 
 4. Запустите API:
 
+```bash
 uvicorn api.app:app --reload
-
+```
 
 ## Использование
 
@@ -98,22 +100,27 @@ uvicorn api.app:app --reload
 
 ### Обучение модели
 
+```bash
 python src/models/train_model.py
-
+```
 
 ### Тестирование
 
+```bash
 pytest
+```
 
 ### Запуск в Docker
 
-
+```bash
 docker build -t credit-scoring-api .
 docker run -p 8000:8000 credit-scoring-api
-
+```
 
 ## Пример запроса к API
 
+```bash
 curl -X POST "http://localhost:8000/predict" \
      -H "Content-Type: application/json" \
      -d '{"LIMIT_BAL": 50000, "SEX": 1, "EDUCATION": 2, ...}'
+```
